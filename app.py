@@ -28,19 +28,19 @@ driver.maximize_window()
 #login flow
 
 #open the webpage
-driver.get("https://backoffice.flota.viapool.com/login")
+driver.get("URL")
 
 #target email
 email = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
 #enter username and password
 email.clear()
-email.send_keys('eduardo.hernandez@viapool.com')
+email.send_keys('ID_EMAIL')
 
 #target password
 password = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='password']")))
 #enter and password
 password.clear()
-password.send_keys('3du!h3r@_')
+password.send_keys('PASSW_KEY')
 
 
 submit = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
