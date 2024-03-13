@@ -6,75 +6,64 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from datetime import date
+import csv
 import os
 import arrow
 import pandas as pd
 from time import sleep
+
 # from pyvirtualdisplay import Display
-
-
 # display = Display(visible=0, size=(400, 800))
 # display.start()
 
+
+# Set up WebDriver Options
 options = webdriver.ChromeOptions()
 # options.add_argument('--disable-extensions')
 # options.add_argument('--headless')
 # options.add_argument('--disable-gpu')
 # options.add_argument('--no-sandbox')
 # options.add_argument('--disable-dev-shm-usage')
+
+# Initialize WebDriver
 driver = webdriver.Chrome(options=options)
 driver.maximize_window()
 
 
-#Open the webpage
+# Navigate to the page
 driver.get("https://www.santanderassetmanagement.cl/buscador-de-fondos")
+sleep(5)  # Wait for the page to load
 
-sleep(300)
+# Locate the table
+# Adjust the selector if necessary to target the specific table
+table = driver.find_element(By.TAG_NAME, "table")
 
-# #target email
-# email = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
-# #enter username and password
-# email.clear()
-# email.send_keys('ID_EMAIL')
+# Extract data from the table
+data = []
+# Header
+headers = [header.text for header in table.find_elements(By.TAG_NAME, "th")]
+data.append(headers)
 
-# #target password
-# password = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='password']")))
-# #enter and password
-# password.clear()
-# password.send_keys('PASSW_KEY')
+# Rows
+rows = table.find_elements(By.TAG_NAME, "tr")
+for row in rows:
+    cols = row.find_elements(By.TAG_NAME, "td")  # or 'td' for data cells
+    if cols:  # This skips the header row
+        data.append([col.text for col in cols])
 
+# Close the WebDriver
+driver.quit()
 
-# submit = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
-# driver.implicitly_wait(20)
-# #after_codeclick = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
-# #We are logged in!
+# Create a DF
+df = pd.DataFrame(data[1:], columns=data[0])
 
+print(df)
 
-# #FLUJO DE DESCARGA 
+# Save the extracted data to a CSV file
+# csv_file_path = "funds_data.csv"
+# with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
+#     writer = csv.writer(file)
+#     writer.writerows(data)
 
-# #Ingreso a seccion rides
-
-# rides = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, "/html/body/app-root/app-home-layout/div/app-nav/header/nav/a[4]/span"))).click()
-
-# arw = arrow.utcnow()
-# today = arw.shift(days=-1).format('DD') 
-# today = int(today)
-# today = today - 1
-# today = str(today)
-
-# #Date selection 
-
-# driver.find_element(By.XPATH, '/html/body/app-root/app-home-layout/div/app-order/app-order-list/div[1]/div/div/div[2]/div[2]/div[1]/mat-form-field[1]/div/div[1]/div[2]/mat-datepicker-toggle/button').click()
-
-# alldates=driver.find_elements(By.XPATH,'//table[@class="mat-calendar-table"]//div[@class="mat-calendar-body-cell-content"]')
-
-# for dateselements in alldates:
-#     date=dateselements.text
-#     #print(date)
-#     if date==today: 
-#         dateselements.click()
-#         break
-
-# #Descarga de documentos
-
-# download = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, "/html/body/app-root/app-home-layout/div/app-order/app-order-list/div[1]/div/div/div[2]/div[2]/div[2]/button/span/mat-icon"))).click()
+# print(f"Data saved to {csv_file_path}")
+print('end')
