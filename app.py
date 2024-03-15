@@ -11,6 +11,8 @@ import os
 import arrow
 import pandas as pd
 from time import sleep
+from utils.db import insert_data
+
 
 # from pyvirtualdisplay import Display
 # display = Display(visible=0, size=(400, 800))
@@ -57,13 +59,10 @@ driver.quit()
 # Create a DF
 df = pd.DataFrame(data[1:], columns=data[0])
 
-print(df)
+# Convert the DataFrame to a list of tuples, one for each row
+data_tuples = [tuple(x) for x in df.to_numpy()]
 
-# Save the extracted data to a CSV file
-# csv_file_path = "funds_data.csv"
-# with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
-#     writer = csv.writer(file)
-#     writer.writerows(data)
+# Call the insert_data function with the prepared data
+insert_data(data_tuples)
 
-# print(f"Data saved to {csv_file_path}")
-print('end')
+print('Data insertion complete.')

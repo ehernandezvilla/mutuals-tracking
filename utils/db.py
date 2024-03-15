@@ -54,26 +54,30 @@ def create_table():
 # create_table()
 
 
-# SQL command to insert a query
-insert_query = """
-INSERT INTO fund_data (fund_name, serie, fund_type, daily_variation, thirty_day_variation, yearly_variation, quota_value)
-VALUES (%s, %s, %s, %s, %s, %s, %s)
-"""
 
-# Note: Ensure 'serie' matches your table column name, not 'series' as in your INSERT statement
 
-# Assuming 'data_tuple' does not include a date; PostgreSQL will automatically fill it
-data_tuple = ("FI Deuda Chile series A", "A", "Some Fund Type", "-0,02%", "0,69%", "4,09%", "$1.253,5248")
+# # Assuming 'data_tuple' does not include a date; PostgreSQL will automatically fill it
+# data_tuple = ("FI Deuda Chile series A", "A", "Some Fund Type", "-0,02%", "0,69%", "4,09%", "$1.253,5248")
 
-def insert_data():  # Renamed function to avoid conflict
+def insert_data(data_tuples):  # Renamed function to avoid conflict
     conn = None
     try:
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(**conn_params)
         cur = conn.cursor()
         
-        # Execute the SQL command with data_tuple
-        cur.execute(insert_query, data_tuple)  # Pass data_tuple as the second argument
+       # Prepare the SQL command
+        insert_query = """
+        INSERT INTO fund_data (fund_name, serie, fund_type, daily_variation, thirty_day_variation, yearly_variation, quota_value)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        
+        # Adjust each tuple to match the expected structure
+        adjusted_data_tuples = [t[:-1] for t in data_tuples]  # This removes the last element from each tuple
+        
+        # Execute the SQL command for each adjusted tuple
+        for data_tuple in adjusted_data_tuples:
+            cur.execute(insert_query, data_tuple)
         
         # Commit the changes to the database
         conn.commit()
