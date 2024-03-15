@@ -1,10 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.ui import Select
 from datetime import date
 import csv
 import os
@@ -12,6 +5,9 @@ import arrow
 import pandas as pd
 from time import sleep
 from utils.db import insert_data
+# Selenium
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 # from pyvirtualdisplay import Display
@@ -19,16 +15,15 @@ from utils.db import insert_data
 # display.start()
 
 
-# Set up WebDriver Options
-options = webdriver.ChromeOptions()
-# options.add_argument('--disable-extensions')
-# options.add_argument('--headless')
-# options.add_argument('--disable-gpu')
-# options.add_argument('--no-sandbox')
-# options.add_argument('--disable-dev-shm-usage')
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode.
+chrome_options.add_argument("--no-sandbox")  # Bypass OS security model.
+chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems.
+chrome_options.add_argument("--remote-debugging-port=9222")  # Remote debugging port.
+
+driver = webdriver.Chrome(options=chrome_options)
 
 # Initialize WebDriver
-driver = webdriver.Chrome(options=options)
 driver.maximize_window()
 
 
