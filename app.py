@@ -8,6 +8,7 @@ from utils.db import insert_data
 # Selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 
 # from pyvirtualdisplay import Display
@@ -15,15 +16,19 @@ from selenium.webdriver.chrome.options import Options
 # display.start()
 
 
+# Set up WebDriver Options
+chrome_options = Options()
+options = webdriver.ChromeOptions()
+
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode.
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model.
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems.
 chrome_options.add_argument("--remote-debugging-port=9222")  # Remote debugging port.
 
-driver = webdriver.Chrome(options=chrome_options)
 
 # Initialize WebDriver
+driver = webdriver.Chrome(options=chrome_options)
 driver.maximize_window()
 
 
@@ -51,13 +56,18 @@ for row in rows:
 # Close the WebDriver
 driver.quit()
 
+print('processing')
+
 # Create a DF
 df = pd.DataFrame(data[1:], columns=data[0])
 
-# Convert the DataFrame to a list of tuples, one for each row
-data_tuples = [tuple(x) for x in df.to_numpy()]
+# print(df)
 
-# Call the insert_data function with the prepared data
-insert_data(data_tuples)
+# Save the extracted data to a CSV file
+# csv_file_path = "funds_data.csv"
+# with open(csv_file_path, 'w', newline='', encoding='utf-8') as file:
+#     writer = csv.writer(file)
+#     writer.writerows(data)
 
-print('Data insertion complete.')
+# print(f"Data saved to {csv_file_path}")
+print('end')

@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11.0
+FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -11,9 +11,14 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Chromium and chromedriver for Selenium
+# Install Chromium, ChromeDriver, and dependencies
 RUN apt-get update && apt-get install -y \
     chromium \
     chromium-driver \
+    libglib2.0-0 \
+    libnss3 \
+    libgconf-2-4 \
+    libfontconfig1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Make port 80 available to the world outside this container
