@@ -17,13 +17,13 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: example
+      POSTGRES_DB: funds
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: donip123
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5434:5432"
 
 volumes:
   db-data:
