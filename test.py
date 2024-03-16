@@ -12,7 +12,13 @@ conn_params = {
     "host": os.getenv("DB_HOST"),
     "database": os.getenv("DB_NAME"),
     "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD")
+    "password": os.getenv("DB_PASSWORD"),
+    "port": os.getenv("DB_PORT")
 }
 
-print(conn_params["database"])
+print("DB_HOST:", os.getenv("DB_HOST"))
+print("DB_NAME:", os.getenv("DB_NAME"))
+print("DB_USER:", os.getenv("DB_USER"))
+print("DB_PASSWORD:", os.getenv("DB_PASSWORD"))
+print("DB_PORT:", os.getenv("DB_PORT"))
+

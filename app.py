@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # display = Display(visible=0, size=(400, 800))
 # display.start()
 
-create_database()
+# create_database()
 
 
 # Set up WebDriver Options
