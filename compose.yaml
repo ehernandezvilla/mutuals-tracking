@@ -8,18 +8,18 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_NAME=funds
-      - DB_USER=postgres
-      - DB_PASSWORD=donip123
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
 
   db:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: funds
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: donip123
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
