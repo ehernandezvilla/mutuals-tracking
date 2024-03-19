@@ -69,7 +69,7 @@ driver.quit()
 
 print('processing')
 
-create_table()
+# create_table()
 
 # Create a DF
 df = pd.DataFrame(data[1:], columns=data[0])
